@@ -1,0 +1,27 @@
+{
+  "name": "image-gallery",
+  "version": "1.0.0",
+  "description": "A simple image-gallery using node and mongoDB",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Samratkunwar/Image-Gallery.git"
+  },
+  "author": "Samrat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Samratkunwar/Image-Gallery/issues"
+  },
+  "homepage": "https://github.com/Samratkunwar/Image-Gallery#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.7.1",
+    "express": "^4.17.1",
+    "mongodb": "^3.3.3",
+    "mongoose": "^5.7.6",
+    "nodemon": "^1.19.4"
+  }
+}
