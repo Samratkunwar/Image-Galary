@@ -11,14 +11,14 @@
     </div>
   
     <div class="form-inline">
-      <form class="form-inline" action="" method="POST">
-        <input class="form-control-plaintext" type="text" placeholder="name" name="name">
+      <form class="form-inline" action="/newimage" method="POST">
+        <input class="form-control-plaintext" type="text" placeholder="name" name="name" required>
         <input class="form-control-plaintext" type="text" name="message" placeholder="message">
         <input  type="file" name="image">
         <button class="btn btn-success">Post</button>
       </form>
 
-    </div>
+    </div><br>
 
     <div class="row" style="display: flex; flex-wrap: wrap;">
       <% images.forEach(function(images){ %>
@@ -29,14 +29,19 @@
             <h5 class="card-title"><%= images.name %></h5>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
           </div>
-        </div>    
+        </div> <br>   
       </div>
       <% }); %>
     </div>
   
-
+    <footer>
+      <hr class="feather">
+      <h3>All Copyrights reserved @ 2018</h3>
+    </footer>
     
   </div>
+
+  
   
 
 
