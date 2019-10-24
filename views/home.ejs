@@ -7,14 +7,14 @@
       <hr class="my-4">
       <p>The gallery displays photoes of professional photograpohers and some by me. </p>
       <!-- <p class="subtitle">Hope you like it.</p> -->
-      <!-- <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a> -->
+      <a class="btn btn-primary btn-md" href="#" role="button">Add New Image</a>
     </div>
   
     <div class="form-inline">
       <form class="form-inline" action="/newimage" method="POST">
         <input class="form-control-plaintext" type="text" placeholder="name" name="name" required>
         <input class="form-control-plaintext" type="text" name="message" placeholder="message">
-        <input  type="file" name="image">
+        <input  class="form-control-plaintext" type="text" name="image" placeholder="Image link">
         <button class="btn btn-success">Post</button>
       </form>
 
@@ -34,10 +34,7 @@
       <% }); %>
     </div>
   
-    <footer>
-      <hr class="feather">
-      <h3>All Copyrights reserved @ 2018</h3>
-    </footer>
+
     
   </div>
 
