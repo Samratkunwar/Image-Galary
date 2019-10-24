@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(express.static(__dirname + '/public'));
 
 // connecting to the database (note: the database must be turned on before connecting)
 mongoose.connect(https, function(err, res){
@@ -69,8 +70,13 @@ app.post('/newimage', function(req,res){
 
 });
 
+
+
+
 // --------------------------------------------------------------
 
 app.listen(PORT, function(){
     console.log("Server started at port: ", PORT);
 });
+
+
