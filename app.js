@@ -39,13 +39,18 @@ var icolllectionSchema = new mongoose.Schema({
 });
 
 var icommentSchema = new mongoose.Schema({
-    postid: String,
     name: String,
     comment: String
 });
 
+var postCommnetSchema = new mongoose.Schema({
+    postid: Object,
+    commnetid: Object
+});
+
 var Icollection = mongoose.model("icollection", icolllectionSchema);
-var Icomment = mongoose.model("icomment", icolllectionSchema);
+var Icomment = mongoose.model("icomment", icommentSchema);
+var postComment = mongoose.model('postComments', postCommnetSchema);
 
 // -------------------------- Routes ----------------------------
 
@@ -62,6 +67,7 @@ app.get('/', function(req,res){
 
 // route to show individual post
 app.get("/show/:id", function(req, res){
+    
     Icollection.findById(req.params.id, function(err, post){
         if(err){
             console.log(err);
@@ -91,22 +97,44 @@ app.post('/newimage', function(req,res){
 
 });
 
+// Route to update the post
+
+// Route to delete the post
+
+
 // Routes for adding comments in a post
 app.post('/comments', function(req, res){
     var postid = req.body.postid;
     var commentor = req.body.username;
-    var comment = req.body.commnet;
-    var comment = {postid:postid, name:commentor, comment:comment };
-    Icomment.create(comment, function(err, ncomment){
+    var comment = req.body.comment;
+    var newcomment = {name:commentor, comment:comment};
+    Icomment.create(newcomment, function(err, ncomment){
         if (err){
             console.log(err);
         }
         else{
+            
             console.log('comment added to post with id:', postid);
+
+            // create a link between comment and post table
+            var comid = ncomment.id
+            var pcomment = { postid:postid, commnetid:comid };
+            postComment.create(pcomment, function(err, npostcomment){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("brance created");
+                }
+            });
+
+            // think of a way to redirect back to the same post
         }
-        res.redirect("/");
+        
     })
 });
+
+// Route to delete Comment
 
 
 // --------------------------------------------------------------
@@ -115,4 +143,12 @@ app.listen(PORT, function(){
     console.log("Server started at port: ", PORT);
 });
 
+
+/*
+
+1. think of a way to authenticate user
+2. think of a way to upload file/image
+
+
+*/
 
