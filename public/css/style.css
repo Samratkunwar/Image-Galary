@@ -9,3 +9,39 @@ h1 {
 body {
     background: red;
 } */
+/* 
+.user {
+    display: inline-block;
+    width: 150px;
+    height: 150px;
+    background: #03527B;
+    border-radius: 50%;
+    position: relative;
+    border: 10px solid #03527B;
+    overflow: hidden;
+    box-sizing: border-box;
+};
+
+.user::before {
+    content: '';
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background: #FFF;
+    border-radius: 50%;
+    position: absolute;
+    left: calc(50% - 25px);
+    top: 15px;
+};
+
+.user::after {
+    content: '';
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background: #FFF;
+    border-radius: 50%;
+    position: absolute;
+    left: calc(50% - 50px);
+    top: 75px;
+}; */

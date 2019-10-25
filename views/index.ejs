@@ -24,16 +24,15 @@
       <% images.forEach(function(images){ %>
       <div class="col-md-4 col-sm-6">
         <div class="card" >
-          <img src="<%= images.image %>" class="card-img-top" alt="...">
+          <a href="/show/<%= images._id%>"><img src="<%= images.image %>" class="card-img-top" alt="..."></a>
           <div class="card-body">
-            <h5 class="card-title"><%= images.name %></h5>
-            <p class="card-text"><% images.message %></p>
+            <h5 class="card-title"><i class="fa fa-user-circle"></i> <%= images.name %></h5>
+            <p class="card-text"><%= images.message %></p>
           </div>
         </div> <br>   
       </div>
       <% }); %>
     </div>
-  
 
     
   </div>

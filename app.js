@@ -12,8 +12,11 @@ var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+
+// connecting the css to html
 app.use(express.static(__dirname + '/public'));
 
 // connecting to the database (note: the database must be turned on before connecting)
@@ -35,8 +38,14 @@ var icolllectionSchema = new mongoose.Schema({
 
 });
 
-var Icollection = mongoose.model("icollection", icolllectionSchema);
+var icommentSchema = new mongoose.Schema({
+    postid: String,
+    name: String,
+    comment: String
+});
 
+var Icollection = mongoose.model("icollection", icolllectionSchema);
+var Icomment = mongoose.model("icomment", icolllectionSchema);
 
 // -------------------------- Routes ----------------------------
 
@@ -46,7 +55,19 @@ app.get('/', function(req,res){
         if (err){
             console.log(err);
         }else{
-            res.render("home", {images:Icollection})
+            res.render("index", {images:Icollection})
+        }
+    });
+});
+
+// route to show individual post
+app.get("/show/:id", function(req, res){
+    Icollection.findById(req.params.id, function(err, post){
+        if(err){
+            console.log(err);
+        }
+        else{
+            res.render("show", {post:post});
         }
     });
 });
@@ -70,7 +91,22 @@ app.post('/newimage', function(req,res){
 
 });
 
-
+// Routes for adding comments in a post
+app.post('/comments', function(req, res){
+    var postid = req.body.postid;
+    var commentor = req.body.username;
+    var comment = req.body.commnet;
+    var comment = {postid:postid, name:commentor, comment:comment };
+    Icomment.create(comment, function(err, ncomment){
+        if (err){
+            console.log(err);
+        }
+        else{
+            console.log('comment added to post with id:', postid);
+        }
+        res.redirect("/");
+    })
+});
 
 
 // --------------------------------------------------------------

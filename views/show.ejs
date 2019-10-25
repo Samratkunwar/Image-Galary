@@ -1,0 +1,30 @@
+<% include layouts/header %>
+
+<div class="container">
+    <div class="user"></div><h1><i class="fa fa-user-circle"></i> <%= post.name%></h1>
+    <img src="<%= post.image%>" alt="">
+    <h3>
+        <i class="fa fa-trash"></i> 
+        <i class="fa fa-edit"></i>
+        <i class="fa fa-comment"></i>
+    </h3>
+    
+    <h4><strong>Message: </strong><%= post.message %></h4>
+    
+
+    <div class="container" style="border: 5px solid #03527B;">
+        <h3>Add Comments</h3>
+        <form class="form-inline" action="/comments" method="POST" >
+            <input type="hidden" value="<%= post.id%>" name="postid">
+            <input class="form-control-plaintext" type="text" placeholder="username" name="username" required>
+            <input class="form-control-plaintext" type="text" name="comment" placeholder="comment">
+            <button class="btn btn-success">Comment</button>
+        </form><br>
+    </div>
+
+
+
+</div>
+
+
+<% include layouts/footer %>
