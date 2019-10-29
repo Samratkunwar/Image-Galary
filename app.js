@@ -13,6 +13,10 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 
 
+// importing models from post and comment class
+var post = require('./models/Post.js');
+var comments = require('./models/comments.js')
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 
@@ -29,38 +33,16 @@ mongoose.connect(https, function(err, res){
     }
 });
 
-// -------------------------- Schema ----------------------------
-
-var icolllectionSchema = new mongoose.Schema({
-    name: String,
-    message: String,
-    image: String
-
-});
-
-var icommentSchema = new mongoose.Schema({
-    name: String,
-    comment: String
-});
-
-var postCommnetSchema = new mongoose.Schema({
-    postid: Object,
-    commnetid: Object
-});
-
-var Icollection = mongoose.model("icollection", icolllectionSchema);
-var Icomment = mongoose.model("icomment", icommentSchema);
-var postComment = mongoose.model('postComments', postCommnetSchema);
 
 // -------------------------- Routes ----------------------------
 
 // route to open to the home page
 app.get('/', function(req,res){
-    Icollection.find({}, function(err, Icollection){
+    post.find({}, function(err, post){
         if (err){
             console.log(err);
         }else{
-            res.render("index", {images:Icollection})
+            res.render("index", {images:post})
         }
     });
 });
@@ -68,7 +50,7 @@ app.get('/', function(req,res){
 // route to show individual post
 app.get("/show/:id", function(req, res){
     
-    Icollection.findById(req.params.id, function(err, post){
+    post.findById(req.params.id, function(err, post){
         if(err){
             console.log(err);
         }
@@ -84,7 +66,7 @@ app.post('/newimage', function(req,res){
     var message = req.body.message;
     var image = req.body.image;
     var newimage = {name:name, message:message, image:image};
-    Icollection.create(newimage, function(err, newdata){
+    post.create(newimage, function(err, newdata){
        if(err){
            console.log(err);
        }
@@ -108,7 +90,7 @@ app.post('/comments', function(req, res){
     var commentor = req.body.username;
     var comment = req.body.comment;
     var newcomment = {name:commentor, comment:comment};
-    Icomment.create(newcomment, function(err, ncomment){
+    comment.create(newcomment, function(err, ncomment){
         if (err){
             console.log(err);
         }
