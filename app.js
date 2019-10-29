@@ -14,8 +14,8 @@ var mongoose = require('mongoose');
 
 
 // importing models from post and comment class
-var post = require('./models/Post.js');
-var comments = require('./models/comments.js')
+var post = require('./models/post.js');
+var Comment = require('./models/comment.js')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
@@ -36,6 +36,8 @@ mongoose.connect(https, function(err, res){
 
 // -------------------------- Routes ----------------------------
 
+//==================== Routes For Posts ======================
+
 // route to open to the home page
 app.get('/', function(req,res){
     post.find({}, function(err, post){
@@ -50,11 +52,12 @@ app.get('/', function(req,res){
 // route to show individual post
 app.get("/show/:id", function(req, res){
     
-    post.findById(req.params.id, function(err, post){
+    post.findById(req.params.id).populate("comments").exec(function(err, post){
         if(err){
             console.log(err);
         }
         else{
+            console.log(post);
             res.render("show", {post:post});
         }
     });
@@ -83,38 +86,32 @@ app.post('/newimage', function(req,res){
 
 // Route to delete the post
 
+//==================== Routes For Comments ===================
 
 // Routes for adding comments in a post
-app.post('/comments', function(req, res){
-    var postid = req.body.postid;
-    var commentor = req.body.username;
-    var comment = req.body.comment;
-    var newcomment = {name:commentor, comment:comment};
-    comment.create(newcomment, function(err, ncomment){
-        if (err){
+
+app.post("/show/:id/comments", function(req, res){
+    post.findById(req.params.id, function(err, postData){
+        if(err){
             console.log(err);
         }
         else{
-            
-            console.log('comment added to post with id:', postid);
-
-            // create a link between comment and post table
-            var comid = ncomment.id
-            var pcomment = { postid:postid, commnetid:comid };
-            postComment.create(pcomment, function(err, npostcomment){
-                if(err){
+            Comment.create(req.body.comment, function(err, comment){
+                if (err){
                     console.log(err);
                 }
                 else{
-                    console.log("brance created");
+                    postData.comments.push(comment);
+                    postData.save();
+                    res.redirect('/show/' + postData._id);
                 }
             });
-
-            // think of a way to redirect back to the same post
         }
-        
-    })
+    });
+
 });
+
+
 
 // Route to delete Comment
 
