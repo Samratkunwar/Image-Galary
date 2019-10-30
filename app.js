@@ -11,7 +11,8 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-
+var multer = require('multer');
+var path = require('path');
 
 // importing models from post and comment class
 var post = require('./models/post.js');
@@ -23,8 +24,38 @@ app.set("view engine", "ejs");
 // connecting the css to html
 app.use(express.static(__dirname + '/public'));
 
+
+// setting up a virtual storage
+var Storage = multer.diskStorage({
+    destination: './public/uploads/',
+    filename: function(req, file, cb){
+        cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+    }
+});
+
+var upload = multer({
+    storage: Storage,
+    limits: {fileSize: 1000000},
+    fileFilter: function(req, file, cb){
+        checkFileType(file, cb);
+    }
+}).single('image');
+
+function checkFileType(file, cb){
+    const fileType = /jpg|jpeg|png|gif/;
+    const extname = fileType.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = fileType.test(file.mimetype);
+
+    if (mimetype && extname){
+        return cb(null, true);
+    }
+    else{
+        cb("Error: Images Only!");
+    }
+};
+
 // connecting to the database (note: the database must be turned on before connecting)
-mongoose.connect(https, function(err, res){
+mongoose.connect(https, {useUnifiedTopology: true}, function(err, res){
     if(err){
         console.log(err);
     }
@@ -44,6 +75,7 @@ app.get('/', function(req,res){
         if (err){
             console.log(err);
         }else{
+            
             res.render("index", {images:post})
         }
     });
@@ -52,7 +84,7 @@ app.get('/', function(req,res){
 // route to show individual post
 app.get("/show/:id", function(req, res){
     
-    post.findById(req.params.id).populate("comments").exec(function(err, post){
+    post.findById(req.params.id).populate("comments").select('relPath').exec(function(err, post){
         if(err){
             console.log(err);
         }
@@ -65,20 +97,56 @@ app.get("/show/:id", function(req, res){
 
 // route for creating new image postin the collection
 app.post('/newimage', function(req,res){
-    var name = req.body.name;
-    var message = req.body.message;
-    var image = req.body.image;
-    var newimage = {name:name, message:message, image:image};
-    post.create(newimage, function(err, newdata){
-       if(err){
-           console.log(err);
-       }
-       else{
-            console.log('new image added to the collection.');
-            console.log(newdata)
-            res.redirect("/");
-       }
+
+    upload(req, res, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            if (req.file == undefined){
+                res.render('index', {msg: "Error: No File Selected! "});
+            }
+            else{
+                
+                var name = req.body.name;
+                var message = req.body.message;
+                var newimage = {
+                    name: name,
+                    message: message,
+                    image: req.file.path
+                }
+                post.create(newimage, function(err, newdata){
+                    if(err){
+                        console.log(err);
+                    }
+                    else{
+                        console.log(newdata)
+                        console.log('new image added to the collection.');
+                        res.redirect("/");
+                       }
+                });
+            }
+            
+        }
     });
+    // var image = fs.readFileSync(req.file.path);
+    // var encoded_image = image.toString('base64');
+    // var image = req.body.image;
+    // var newimage = {
+    //     name:name, 
+    //     message:message, 
+    //     image: new Buffer(encoded_image, 'base64') 
+    // };
+    // post.create(newimage, function(err, newdata){
+    //    if(err){
+    //        console.log(err);
+    //    }
+    //    else{
+    //         console.log('new image added to the collection.');
+    //         console.log(newdata)
+    //         res.redirect("/");
+    //    }
+    // });
 
 });
 
@@ -126,7 +194,6 @@ app.listen(PORT, function(){
 /*
 
 1. think of a way to authenticate user
-2. think of a way to upload file/image
 
 
 */
