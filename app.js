@@ -1,11 +1,7 @@
+// variables 
+
 var PORT = 3000;
 var https = "mongodb://localhost:27017/gallery";
-var dummy_data = [
-    {name: "Erza", image:"http://www.babyzuzu.com/wp-content/uploads/2019/03/Baby-Born-Low-Key-Photography.jpg"},
-    {name: "John", image:"https://render.fineartamerica.com/images/rendered/default/print/6.000/8.000/break/images/artworkimages/medium/1/beautiful-sensual-portrait-of-a-couple-black-and-white-awen-fine-art-prints.jpg"},
-    {name:"" , image:"https://render.fineartamerica.com/images/rendered/default/poster/8/10/break/images/artworkimages/medium/1/romantic-sensual-portrait-of-man-and-woman-embracing-black-and-w-awen-fine-art-prints.jpg"},
-    {name:"", image:"https://i.pinimg.com/originals/d4/91/44/d49144e6f4638f1ca39a0effe0c6371d.jpg"}
-];
 
 var express = require('express');
 var app = express();
@@ -100,11 +96,25 @@ app.post('/newimage', function(req,res){
 
     upload(req, res, function(err){
         if(err){
-            console.log(err);
+            post.find({}, function(error, post){
+                if(error) {
+                    console.log(error);
+                }
+                else{
+                    res.render("index", {images:post, msg:err})
+                }
+            })
         }
         else{
             if (req.file == undefined){
-                res.render('index', {msg: "Error: No File Selected! "});
+                post.find({}, function(error, post){
+                    if(error) {
+                        console.log(error);
+                    }
+                    else{
+                        res.render("index", {images:post, msg: "Error: No File Selected! "})
+                    }
+                })
             }
             else{
                
@@ -123,7 +133,7 @@ app.post('/newimage', function(req,res){
                         console.log(newdata)
                         console.log('new image added to the collection.');
                         res.redirect("/");
-                       }
+                    }
                 });
             }
             

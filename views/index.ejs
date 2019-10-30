@@ -55,6 +55,7 @@
     </div>
   
     <div class="form">
+      <%= typeof msg != 'undefined' ? msg : '' %>
       <form class="form-inline" action="/newimage" method="POST" enctype="multipart/form-data">
         <input class="form-control-plaintext" type="text" placeholder="name" name="name" required>
         <input class="form-control-plaintext" type="text" name="message" placeholder="message">
