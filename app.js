@@ -84,7 +84,7 @@ app.get('/', function(req,res){
 // route to show individual post
 app.get("/show/:id", function(req, res){
     
-    post.findById(req.params.id).populate("comments").select('relPath').exec(function(err, post){
+    post.findById(req.params.id).populate("comments").exec(function(err, post){
         if(err){
             console.log(err);
         }
@@ -107,13 +107,13 @@ app.post('/newimage', function(req,res){
                 res.render('index', {msg: "Error: No File Selected! "});
             }
             else{
-                
+               
                 var name = req.body.name;
                 var message = req.body.message;
                 var newimage = {
                     name: name,
                     message: message,
-                    image: req.file.path
+                    image: req.file.filename
                 }
                 post.create(newimage, function(err, newdata){
                     if(err){
