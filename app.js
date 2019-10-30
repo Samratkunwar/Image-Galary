@@ -9,13 +9,19 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var multer = require('multer');
 var path = require('path');
+var passport = require('passport');
+var passportLocalMongoose = require('passport-local-mongoose');
+var LocalStrategy = require('passport-local');
 
-// importing models from post and comment class
+// importing models class
 var post = require('./models/post.js');
 var Comment = require('./models/comment.js')
+var user = require('./models/user.js')
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(passport.initialize());
+app.use(passport.session());
 
 // connecting the css to html
 app.use(express.static(__dirname + '/public'));
