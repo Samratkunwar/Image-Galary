@@ -40,9 +40,14 @@
           </li>
         </ul>
         <ul class="navbar-nav navbar-right">
-            <li class="nav-item"><a class="nav-link" href="/">login</a></li>
-            <li class="nav-item"><a class="nav-link" href="/">logout</a></li>
-            <li class="nav-item"><a class="nav-link" href="/">SignUp</a></li>
+          
+          <% if(!currentUser) { %>
+            <li class="nav-item"><a class="nav-link" href="/login">login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">SignUp</a></li>
+          <% } else{ %>
+            <li class="nav-item"><a class="nav-link" href="/profile"><%= currentUser.username %></a></li>
+            <li class="nav-item"><a class="nav-link" href="/logout">logout</a></li>
+          <% } %>            
           </ul>
       </div>
 
