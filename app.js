@@ -50,34 +50,6 @@ app.use(function(req, res, next){
     next();
 });
 
-// // setting up a virtual storage
-// var Storage = multer.diskStorage({
-//     destination: './public/uploads/',
-//     filename: function(req, file, cb){
-//         cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
-//     }
-// });
-
-// var upload = multer({
-//     storage: Storage,
-//     limits: {fileSize: 1000000},
-//     fileFilter: function(req, file, cb){
-//         checkFileType(file, cb);
-//     }
-// }).single('image');
-
-// function checkFileType(file, cb){
-//     const fileType = /jpg|jpeg|png|gif/;
-//     const extname = fileType.test(path.extname(file.originalname).toLowerCase());
-//     const mimetype = fileType.test(file.mimetype);
-
-//     if (mimetype && extname){
-//         return cb(null, true);
-//     }
-//     else{
-//         cb("Error: Images Only!");
-//     }
-// };
 
 // connecting to the database (note: the database must be turned on before connecting)
 mongoose.connect(https, {useUnifiedTopology: true}, function(err, res){
@@ -90,13 +62,19 @@ mongoose.connect(https, {useUnifiedTopology: true}, function(err, res){
 });
 
 
-// -------------------------- Routes ----------------------------
+//===============================================================================================//
+//
+//                                              Routes
+//
+//===============================================================================================//   
 
 app.use(postRoutes);
 app.use(commentRoute);
 app.use(authenticationRoutes);
 
-// --------------------------------------------------------------
+
+
+// ==============================================================================================//
 
 app.listen(PORT, function(){
     console.log("Server started at port: ", PORT);

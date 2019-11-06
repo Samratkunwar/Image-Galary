@@ -39,6 +39,8 @@ function checkFileType(file, cb){
     }
 };
 
+
+
 //===============================================================================================//
 //
 //                                                 Routes
@@ -71,6 +73,11 @@ router.get("/show/:id", function(req, res){
     });
 });
 
+// route to add new post page
+router.get('/newpost', isLoggedIn, function( req, res){
+    res.render("newpost");
+})
+
 // route for creating new image postin the collection
 router.post('/newimage', function(req,res){
 
@@ -97,7 +104,6 @@ router.post('/newimage', function(req,res){
                 })
             }
             else{
-               
                 var name = req.body.name;
                 var message = req.body.message;
                 var newimage = {
@@ -126,5 +132,12 @@ router.post('/newimage', function(req,res){
 
 // Route to delete the post
 
+
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+};
 
 module.exports =  router;

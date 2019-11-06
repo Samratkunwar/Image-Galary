@@ -16,17 +16,7 @@
             </div><br>
 
             <div class="jumbotron">
-                <form action="/show/<%= post._id %>/comments" method="POST" >
-                    <button class="btn btn-success pull-right"> Add Comment</button>
-                    <div class="form-group row">
-                        <div class="col-sm-6">
-                            <input class="form-control-plaintext" type="text" placeholder="username" name="comment[author]" required>
-                        </div>
-                        <div class="col-sm-6">
-                            <input class="form-control-plaintext" type="text" name="comment[text]" placeholder="comment">
-                        </div>
-                    </div>
-                </form>
+                <a href="/show/<%= post._id %>/comments/new"><button class="btn btn-primary pull-right">Add comment</button></a><br>
                 <hr>
                 
                 <% post.comments.forEach(function(comment){ %>

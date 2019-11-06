@@ -51,19 +51,21 @@
       <hr class="my-4">
       <p>The gallery displays photoes of professional photograpohers and some by me. </p>
       <!-- <p class="subtitle">Hope you like it.</p> -->
-      <button id="itemButton" class="btn btn-primary btn-md">Add to Gallery</button>
+      
+      <a href="/newpost"><button class="btn btn-primary btn-md pull-right">Add to Gallery</button></a>
+      
     </div>
-  
-    <div class="form">
+      <h6><%= typeof msg != 'undefined' ? msg : ''  %></h6>
+    <!-- <div class="model" id="f2">
       <%= typeof msg != 'undefined' ? msg : '' %>
       <form class="form-inline" action="/newimage" method="POST" enctype="multipart/form-data">
-        <input class="form-control-plaintext" type="text" placeholder="name" name="name" required>
+        <input class="form-control-plaintext" type="hidden" placeholder="name" name="name">
         <input class="form-control-plaintext" type="text" name="message" placeholder="message">
         <input  class="form-control-plaintext" type="file" name="image">
         <button class="btn btn-success">Post</button>
       </form>
 
-    </div><br>
+    </div><br> -->
 
     <div class="row" style="display: flex; flex-wrap: wrap;">
       <% images.forEach(function(images){ %>

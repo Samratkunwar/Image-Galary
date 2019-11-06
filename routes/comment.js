@@ -3,6 +3,17 @@ var router = express.Router();
 var post = require('../models/post');
 var Comment = require('../models/comment');
 
+// add new commnet to the post
+router.get('/show/:id/comments/new', isLoggedIn, function(req, res){
+    post.findById(req.params.id, function(err, data){
+        if (err){
+            console.log(err);
+        }
+        else{
+            res.render('newcomment', {post: data});
+        }
+    });
+});
 
 // Routes for adding comments in a post
 
@@ -31,5 +42,11 @@ router.post("/show/:id/comments", function(req, res){
 
 // Route to delete Comment
 
+function isLoggedIn(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/login');
+};
 
 module.exports = router;  
