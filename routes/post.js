@@ -194,8 +194,19 @@ router.put('/show/:id', function(req, res){
     });
 });
 
-// Route to delete the post
-
+// Route to destroy the post
+router.delete('/show/:id', function(req,res){
+    post.findByIdAndRemove(req.params.id, function(err){
+        if(err){
+            console.log(err);
+            res.redirect('/index');
+        }
+        else{
+            console.log('--------------------- Post with id:' + req.params.id + ' deleted--------------------------');
+            res.redirect('/index');
+        }
+    });
+});
 
 
 function isLoggedIn(req, res, next){
