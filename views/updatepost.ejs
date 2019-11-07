@@ -1,0 +1,24 @@
+<% include layouts/header %>
+
+    <div class="container">
+        <h1 style="text-align: center;">Edit post</h1>
+        <div class="row">
+            <div style="margin:0 auto">
+                <form action="/show/<%= post._id %>?_method=PUT" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <input class="form-control-plaintext" type="text" name="message" placeholder="message" value="<%= post.message%>">
+                    </div>
+                    <div class="form-group">
+                        <input type="file" name="image" value="<%= post.image%>">
+                    </div>
+                    <div class="form-group">
+                       <button class="btn btn-success btn-block">Post</button> 
+                    </div>
+                    
+                </form>
+                </div>
+            </div>
+
+    </div>    
+
+<% include layouts/footer %>

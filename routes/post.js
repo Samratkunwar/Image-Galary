@@ -47,8 +47,13 @@ function checkFileType(file, cb){
 //
 //===============================================================================================//   
 
+//routes for landing page
+router.get('/', function(req, res){
+    res.render('landingpage');
+});
+
 // route to open to the home page
-router.get('/', function(req,res){
+router.get('/index', function(req,res){
     post.find({}, function(err, post){
         if (err){
             console.log(err);
@@ -104,7 +109,7 @@ router.post('/newimage', function(req,res){
                 })
             }
             else{
-                var name = req.body.name;
+                var name = req.user.username;
                 var message = req.body.message;
                 var newimage = {
                     name: name,
@@ -118,7 +123,7 @@ router.post('/newimage', function(req,res){
                     else{
                         console.log(newdata)
                         console.log('new image added to the collection.');
-                        res.redirect("/");
+                        res.redirect("/index");
                     }
                 });
             }
@@ -128,9 +133,69 @@ router.post('/newimage', function(req,res){
 
 });
 
-// Route to update the post
+// Route to direct user to update page
+router.get('/show/:id/edit', function(req, res){
+    
+    post.findById(req.params.id).populate("comments").exec(function(err, post){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(post);
+            res.render("updatepost", {post:post});
+        }
+    });
+    
+});
+
+// Route to update the posts
+router.put('/show/:id', function(req, res){
+ 
+    upload(req, res, function(err){
+        if (err){
+            console.log(err);
+        }
+        else{
+            var name = '';
+            var image = '';
+            post.findById(req.params.id, function(err, selecteddata){
+                if (err){
+                    console.log(err);
+                }
+                else{
+                    console.log('here');
+                    name = selecteddata.name; 
+                    if (req.file == undefined){
+                        image = selecteddata.image;
+                    }
+                    else{
+                        image = req.file.filename;
+                    }
+                    var message = req.body.message;
+                    var updatedpost = {
+                        name : name,
+                        message : message,
+                        image: image
+                    };
+                    post.findByIdAndUpdate(req.params.id, updatedpost, function(err, selectedpost){
+                        if(err){
+                            console.log(err);
+                            res.redirect('/index');
+                        }
+                        else{
+                            console.log(selectedpost);
+                            res.redirect('/show/' + req.params.id);
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+});
 
 // Route to delete the post
+
 
 
 function isLoggedIn(req, res, next){

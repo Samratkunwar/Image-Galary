@@ -28,8 +28,12 @@ router.post("/show/:id/comments", function(req, res){
                     console.log(err);
                 }
                 else{
+                    comment.author.id = req.user._id;
+                    comment.author.username = req.user.username;
+                    comment.save();
                     postData.comments.push(comment);
                     postData.save();
+                    console.log(comment);
                     res.redirect('/show/' + postData._id);
                 }
             });

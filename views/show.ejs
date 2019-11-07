@@ -10,7 +10,8 @@
             <div class="card">
                 <img src="../uploads/<%= post.image %>" alt="" >
                 <div class="card-body">
-                    <h4 class="pull-right">title</h4>
+                    <a href="/show/<%= post._id %>/edit"><button class="btn btn-primary pull-right">Edit</button></a>
+                    <!-- <h4 class="pull-right">title</h4> -->
                     <h6><strong>Message: </strong><%= post.message %></h6>
                 </div>
             </div><br>
@@ -22,7 +23,7 @@
                 <% post.comments.forEach(function(comment){ %>
                     <p>
                         <p class="pull-right">Just Now</p>
-                        <i class="fa fa-comment"></i> <strong><%= comment.author %></strong> - <%= comment.text %>
+                        <i class="fa fa-comment"></i> <strong><%= comment.author.username %></strong> - <%= comment.text %>
                     </p>
                 <% }) %>
             </div>

@@ -10,7 +10,8 @@ var express                 = require('express'),
     mongoose                = require('mongoose'),
     passport                = require('passport'),
     passportLocalMongoose   = require('passport-local-mongoose'),
-    LocalStrategy           = require('passport-local');
+    LocalStrategy           = require('passport-local'),
+    methodOverride          = require('method-override');
 
 // importing routes
 var postRoutes              = require('./routes/post'),
@@ -26,6 +27,7 @@ var post                    = require('./models/post.js'),
 // malware addition
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(methodOverride("_method"));
 
 
 // connecting the css to html

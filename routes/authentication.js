@@ -38,7 +38,7 @@ router.post('/register', function(req, res){
             passport.authenticate("local")(req, res, function(){
                 console.log("user registration success!");
                 console.log(user);
-                res.redirect('/');
+                res.redirect('/index');
             });
         }
     });
@@ -47,7 +47,7 @@ router.post('/register', function(req, res){
 //route for logout
 router.get('/logout', function(req,res){
     req.logout();
-    res.redirect("/");
+    res.redirect("/index");
 });
 
 //===============================================================================================//
@@ -61,7 +61,7 @@ function AuthenticateUser(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
-    res.redirect('/');
+    res.redirect('/index');
 };
 
 module.exports = router;
