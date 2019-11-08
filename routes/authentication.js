@@ -11,12 +11,12 @@ var express             = require('express'),
 
 // route for login
 router.get('/login', function(req, res){
-    res.render('login');
+    res.render('authentication/login');
 });
 
 router.post('/login', passport.authenticate("local", 
     {
-        successRedirect: "/",
+        successRedirect: "/profile",
         failureRedirect: "/login"
     }) , function(req, res){
     
@@ -24,7 +24,7 @@ router.post('/login', passport.authenticate("local",
 
 //route for registering a new user
 router.get('/register', function(req,res){
-    res.render('register');
+    res.render('authentication/register');
 });
 
 router.post('/register', function(req, res){
@@ -32,7 +32,7 @@ router.post('/register', function(req, res){
     User.register(newUser, req.body.password, function(err, user){
         if(err){
             console.log(err);
-            return res.render('register');
+            return res.render('authentication/register');
         }
         else{
             passport.authenticate("local")(req, res, function(){
@@ -49,6 +49,13 @@ router.get('/logout', function(req,res){
     req.logout();
     res.redirect("/index");
 });
+
+
+
+// route to profile once logged in
+router.get('/profile', function(req, res) {
+    res.render('profile');
+})
 
 //===============================================================================================//
 //

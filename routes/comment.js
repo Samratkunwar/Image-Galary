@@ -10,7 +10,7 @@ router.get('/show/:id/comments/new', isLoggedIn, function(req, res){
             console.log(err);
         }
         else{
-            res.render('newcomment', {post: data});
+            res.render('comment/newcomment', {post: data});
         }
     });
 });

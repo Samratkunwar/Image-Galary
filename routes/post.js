@@ -59,7 +59,7 @@ router.get('/index', function(req,res){
             console.log(err);
         }else{
             
-            res.render("index", {images:post})
+            res.render("post/index", {images:post})
         }
     });
 });
@@ -73,14 +73,14 @@ router.get("/show/:id", function(req, res){
         }
         else{
             console.log(post);
-            res.render("show", {post:post});
+            res.render("post/show", {post:post});
         }
     });
 });
 
 // route to add new post page
 router.get('/newpost', isLoggedIn, function( req, res){
-    res.render("newpost");
+    res.render("post/newpost");
 })
 
 // route for creating new image postin the collection
@@ -93,7 +93,7 @@ router.post('/newimage', function(req,res){
                     console.log(error);
                 }
                 else{
-                    res.render("index", {images:post, msg:err})
+                    res.render("post/index", {images:post, msg:err})
                 }
             })
         }
@@ -104,7 +104,7 @@ router.post('/newimage', function(req,res){
                         console.log(error);
                     }
                     else{
-                        res.render("index", {images:post, msg: "Error: No File Selected! "})
+                        res.render("post/index", {images:post, msg: "Error: No File Selected! "})
                     }
                 })
             }
@@ -142,7 +142,7 @@ router.get('/show/:id/edit', function(req, res){
         }
         else{
             console.log(post);
-            res.render("updatepost", {post:post});
+            res.render("post/updatepost", {post:post});
         }
     });
     
