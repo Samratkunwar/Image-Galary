@@ -16,7 +16,7 @@ The application is created using HTML, CSS and NodeJS( a javascript framework). 
     7. users can edit their profile picture.
 
 # Notes:
-1. To run the project:
+# To run the project:
         1. clone the directory in tho your local machine
         2. cd to the particular directory
         3. enter the 'npm install' command in the terminal (installs all the modules used in the project from       packet.json) 
