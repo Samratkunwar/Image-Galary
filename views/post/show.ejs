@@ -30,10 +30,12 @@
                     <p>
                         <p class="pull-right">Just Now</p>
                         <i class="fa fa-comment"></i> <strong><%= comment.author.username %></strong> - <%= comment.text %><br>
-                        <a href="/show/<%= post._id %>/comments/<%= comment._id%>/edit"><button class="btn btn-primary">Edit</button></a>
-                        <form id="block" action="/show/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" >
-                            <button class="btn btn-danger">Delete</button>
-                        </form>
+                        <% if(currentUser && comment.author.id.equals(currentUser._id)){ %>
+                            <a href="/show/<%= post._id %>/comments/<%= comment._id%>/edit"><button class="btn btn-primary">Edit</button></a>
+                            <form id="block" action="/show/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" >
+                                <button class="btn btn-danger">Delete</button>
+                            </form>
+                        <% } %>
                     </p>
                 <% }) %>
             </div>

@@ -1,10 +1,17 @@
-var express = require('express');
-var router = express.Router();
-var post = require('../models/post');
-var Comment = require('../models/comment');
+var express         = require('express'),
+    router          = express.Router(),
+    post            = require('../models/post'),
+    Comment         = require('../models/comment'),
+    middleware      = require('../middleware/index');
+
+//---------------------------------------------------------------------------------------//
+//
+//                                      Routes
+//
+//---------------------------------------------------------------------------------------//
 
 // add new commnet to the post
-router.get('/show/:id/comments/new', isLoggedIn, function(req, res){
+router.get('/show/:id/comments/new', middleware.isLoggedIn, function(req, res){
     post.findById(req.params.id, function(err, data){
         if (err){
             console.log(err);
@@ -43,7 +50,7 @@ router.post("/show/:id/comments", function(req, res){
 });
 
 // Route to edit comment
-router.get('/show/:id/comments/:comment_id/edit', function(req, res){
+router.get('/show/:id/comments/:comment_id/edit', middleware.commentOwnership, function(req, res){
     Comment.findById(req.params.comment_id, function(err, commentdata){
         if(err){
             res.redirect("back");
@@ -56,7 +63,7 @@ router.get('/show/:id/comments/:comment_id/edit', function(req, res){
 });
 
 //Route to update comment
-router.put('/show/:id/comments/:comment_id', function(req,res){
+router.put('/show/:id/comments/:comment_id', middleware.commentOwnership, function(req,res){
     Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedcomment){
         if(err){
             res.redirect("back");
@@ -68,7 +75,7 @@ router.put('/show/:id/comments/:comment_id', function(req,res){
 });
 
 // Route to delete Comment
-router.delete('/show/:id/comments/:comment_id', function(req, res){
+router.delete('/show/:id/comments/:comment_id', middleware.commentOwnership, function(req, res){
     Comment.findByIdAndRemove(req.params.comment_id, function(err){
         if(err){
             res.redirect("back");
@@ -81,18 +88,5 @@ router.delete('/show/:id/comments/:comment_id', function(req, res){
 });
 
 
-
-//-----------------------------------------------------------------------------
-//
-//                                      Functions
-//
-//-----------------------------------------------------------------------------
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect('/login');
-};
 
 module.exports = router;  

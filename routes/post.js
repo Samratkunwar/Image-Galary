@@ -1,8 +1,9 @@
 var express             = require('express'),
     router              = express.Router(),
     post                = require('../models/post'),
-    multer              = require('multer');
-    path                = require('path');
+    multer              = require('multer'),
+    path                = require('path'),
+    middleware          = require('../middleware/index');
 
 //===============================================================================================//
 //
@@ -79,7 +80,7 @@ router.get("/show/:id", function(req, res){
 });
 
 // route to add new post page
-router.get('/newpost', isLoggedIn, function( req, res){
+router.get('/newpost', middleware.isLoggedIn, function( req, res){
     res.render("post/newpost");
 })
 
@@ -137,7 +138,7 @@ router.post('/newimage', function(req,res){
 });
 
 // Route to direct user to update page
-router.get('/show/:id/edit', postOwnership, function(req, res){
+router.get('/show/:id/edit', middleware.postOwnership, function(req, res){
     
     post.findById(req.params.id).populate("comments").exec(function(err, post){
         if(err){
@@ -152,7 +153,7 @@ router.get('/show/:id/edit', postOwnership, function(req, res){
 });
 
 // Route to update the posts
-router.put('/show/:id', postOwnership, function(req, res){
+router.put('/show/:id', middleware.postOwnership, function(req, res){
  
     upload(req, res, function(err){
         if (err){
@@ -198,7 +199,7 @@ router.put('/show/:id', postOwnership, function(req, res){
 });
 
 // Route to destroy the post
-router.delete('/show/:id', postOwnership, function(req,res){
+router.delete('/show/:id', middleware.postOwnership, function(req,res){
     post.findByIdAndRemove(req.params.id, function(err){
         if(err){
             console.log(err);
@@ -211,41 +212,5 @@ router.delete('/show/:id', postOwnership, function(req,res){
     });
 });
 
-
-//-------------------------------------------------------------------------------------------------------------------//
-//                                                                                                                  //
-//                                      Functions                                                                  //
-//                                                                                                                //
-//---------------------------------------------------------------------------------------------------------------//
-
-function isLoggedIn(req, res, next){
-    if(req.isAuthenticated()){
-        return next();
-    }
-    res.redirect('/login');
-};
-
-function postOwnership(req, res, next){
-    if(req.isAuthenticated()){
-        
-        post.findById(req.params.id).populate("comments").exec(function(err, userspost){
-            if(err){
-                res.redirect("back");
-            }
-            else{
-                console.log("Trying");
-                if(userspost.author.id.equals(req.user._id)){
-                    next();
-                }
-                else{
-                    res.send("you are not authorized!");
-                }
-            }
-        });
-    }
-    else{
-        res.redirect("back");
-    }
-};
 
 module.exports =  router;
