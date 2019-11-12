@@ -11,13 +11,14 @@
                 <img src="../uploads/<%= post.image %>" alt="" >
                 <div class="card-body">
                     <h6><strong>Message: </strong><%= post.message %></h6>
-                    
-                    <form action="/show/<%= post._id %>/?_method=DELETE" method="POST" class="inline-block">
-                        <button class="btn btn-danger pull-right">Delete</button>
-                    </form>
+                    <% if(currentUser && post.author.id.equals(currentUser._id)){ %>
 
-                    <a href="/show/<%= post._id %>/edit"><button class="btn btn-primary pull-right">Edit</button></a>
-                    
+                        <form action="/show/<%= post._id %>/?_method=DELETE" method="POST" class="inline-block">
+                            <button class="btn btn-danger pull-right">Delete</button>
+                        </form>
+
+                        <a href="/show/<%= post._id %>/edit"><button class="btn btn-primary pull-right">Edit</button></a>
+                    <% } %>
                 </div>
             </div><br>
 
@@ -28,7 +29,11 @@
                 <% post.comments.forEach(function(comment){ %>
                     <p>
                         <p class="pull-right">Just Now</p>
-                        <i class="fa fa-comment"></i> <strong><%= comment.author.username %></strong> - <%= comment.text %>
+                        <i class="fa fa-comment"></i> <strong><%= comment.author.username %></strong> - <%= comment.text %><br>
+                        <a href="/show/<%= post._id %>/comments/<%= comment._id%>/edit"><button class="btn btn-primary">Edit</button></a>
+                        <form id="block" action="/show/<%= post._id %>/comments/<%= comment._id %>?_method=DELETE" method="POST" >
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
                     </p>
                 <% }) %>
             </div>

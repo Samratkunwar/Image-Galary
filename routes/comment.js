@@ -42,9 +42,51 @@ router.post("/show/:id/comments", function(req, res){
 
 });
 
+// Route to edit comment
+router.get('/show/:id/comments/:comment_id/edit', function(req, res){
+    Comment.findById(req.params.comment_id, function(err, commentdata){
+        if(err){
+            res.redirect("back");
+        }
+        else{
+            res.render("comment/editcomment", {post_id:req.params.id, comment:commentdata});
+        }
+    });
+    
+});
 
+//Route to update comment
+router.put('/show/:id/comments/:comment_id', function(req,res){
+    Comment.findByIdAndUpdate(req.params.comment_id, req.body.comment, function(err, updatedcomment){
+        if(err){
+            res.redirect("back");
+        }
+        else{
+            res.redirect('/show/' + req.params.id);
+        }
+    });
+});
 
 // Route to delete Comment
+router.delete('/show/:id/comments/:comment_id', function(req, res){
+    Comment.findByIdAndRemove(req.params.comment_id, function(err){
+        if(err){
+            res.redirect("back");
+        }
+        else{
+            console.log("comment deleted");
+            res.redirect("/show/" + req.params.id);
+        }
+    });
+});
+
+
+
+//-----------------------------------------------------------------------------
+//
+//                                      Functions
+//
+//-----------------------------------------------------------------------------
 
 function isLoggedIn(req, res, next){
     if(req.isAuthenticated()){

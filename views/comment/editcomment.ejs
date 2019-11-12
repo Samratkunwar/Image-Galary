@@ -1,0 +1,19 @@
+<% include ../layouts/header %>
+
+<div class="container">
+    <h1 style="text-align: center;">Edit Comment</h1>
+    <div class="row">
+        <form action="/show/<%= post_id %>/comments/<%= comment._id %>?_method=PUT" method="POST" style="margin: 0 auto;">
+            
+            <div class="form-group">
+                <input class="form-control-plaintext" type="text" name="comment[text]" value="<%= comment.text %>">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-success btn-block"> Submit</button>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+<% include ../layouts/footer %>

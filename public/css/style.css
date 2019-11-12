@@ -1,7 +1,10 @@
-.model{
+/* .model{
     display: none;
-};
+}; */
 
+#block{
+    display: inline;
+};
 
 
 /* img {

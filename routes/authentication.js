@@ -1,7 +1,8 @@
 var express             = require('express'),
     router              = express.Router(),
     User                = require('../models/user'),
-    passport            = require('passport');
+    passport            = require('passport'),
+    post                = require('../models/post');
 
 //===============================================================================================//
 //
@@ -53,9 +54,19 @@ router.get('/logout', function(req,res){
 
 
 // route to profile once logged in
+
 router.get('/profile', function(req, res) {
-    res.render('profile');
-})
+    
+    post.find({name: req.user.username} , function(err, posts){
+        if(err){
+            console.log(err);
+        }
+        else{
+            // doesnt pass the post * needs fixing
+            res.render('profile', {userpost: posts});
+        }
+    });
+});
 
 //===============================================================================================//
 //
