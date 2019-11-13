@@ -1,6 +1,25 @@
 <% include layouts/header %>
 
-  <p>Profile</p>
+  <div class="container">
+    <div class="row"style="display: flex; flex-wrap: wrap;">
+      <div class="col-sm-4">
+        <h5><i class="fa fa-user-circle"></i> <%= currentUser.username %></h5>
+      </div>
+      
+      <div class="col-sm-8">
+        <% userpost.forEach(function(images){ %>
+          <div class="card">
+            <a href="/show/<%= images._id%>"><img src="./uploads/<%= images.image %>" class="card-img-top" alt="..."></a>
+            <div class="card-body">
+                <p class="card-text"><%= images.message %></p>
+            </div>
+          </div>
+                
+        <% }); %>
+      </div>
+     
+    </div>
+  </div>
   
 
 <% include layouts/footer %>

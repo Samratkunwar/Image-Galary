@@ -65,6 +65,7 @@ router.get('/profile', function(req, res) {
         }
         else{
             // doesnt pass the post * needs fixing
+            console.log(posts);
             res.render('profile', {userpost: posts});
         }
     });

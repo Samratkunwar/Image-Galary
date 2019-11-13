@@ -1,14 +1,14 @@
 <% include ../layouts/header %>
 
 <div class="container">
-    <div class="row">
-        <div class="col-sm-2">
-            <div class="user"></div><h1><i class="fa fa-user-circle"></i> <%= post.name%></h1>
+    <div class="row" style="display: flex; flex-wrap: wrap;">
+        <div class="col-sm-4">
+            <h1><i class="fa fa-user-circle"></i> <%= post.name%></h1>
         </div>
 
-        <div class="col-sm-7">
+        <div class="col-sm-8">
             <div class="card">
-                <img src="../uploads/<%= post.image %>" alt="" >
+                <img src="../uploads/<%= post.image %>" class="card-img-top" alt="" >
                 <div class="card-body">
                     <h6><strong>Message: </strong><%= post.message %></h6>
                     <% if(currentUser && post.author.id.equals(currentUser._id)){ %>
