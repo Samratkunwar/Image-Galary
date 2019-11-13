@@ -105,7 +105,8 @@ router.post('/newimage', function(req,res){
                         console.log(error);
                     }
                     else{
-                        res.render("post/index", {images:post, msg: "Error: No File Selected! "})
+                        req.flash("error","Error!: No File Selected!");
+                        res.render("post/index", {images:post})
                     }
                 })
             }

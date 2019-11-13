@@ -13,12 +13,12 @@ middlewareObj.postOwnership = function(req, res, next){
                 res.redirect("back");
             }
             else{
-                 console.log("Trying");
                 if(userspost.author.id.equals(req.user._id)){
                     next();
                 }
                 else{
-                    res.send("you are not authorized!");
+                    req.flash('error', 'you are not authorized!');
+                    res.redirect("back");
                 }
             }
             });
@@ -55,6 +55,7 @@ middlewareObj.isLoggedIn = function(req, res, next){
     if(req.isAuthenticated()){
         return next();
     }
+    req.flash('error', 'You need to be logged-in first!');
     res.redirect('/login');
 };
 

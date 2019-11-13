@@ -11,7 +11,8 @@ var express                 = require('express'),
     passport                = require('passport'),
     passportLocalMongoose   = require('passport-local-mongoose'),
     LocalStrategy           = require('passport-local'),
-    methodOverride          = require('method-override');
+    methodOverride          = require('method-override'),
+    flash                   = require('connect-flash');
 
 // importing routes
 var postRoutes              = require('./routes/post'),
@@ -28,6 +29,7 @@ var post                    = require('./models/post.js'),
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
 app.use(methodOverride("_method"));
+app.use(flash());
 
 
 // connecting the css to html
@@ -49,6 +51,8 @@ passport.deserializeUser(User.deserializeUser());
 // Extracting the current logged in user 
 app.use(function(req, res, next){
     res.locals.currentUser = req.user;
+    res.locals.error = req.flash("error");
+    res.locals.success = req.flash("success");
     next();
 });
 
