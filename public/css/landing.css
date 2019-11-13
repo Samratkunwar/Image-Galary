@@ -7,6 +7,9 @@ body{
     position: relative;
     text-align: center;
     padding-top: 40vh;
+
+    left: -100%;
+    animation: slideIn 0.5s 0.5s forwards cubic-bezier(.5,.5,.5, 1.5);
 }
 
 #landing-header h1 {
@@ -79,4 +82,36 @@ body{
   /* Older browser support - .no-cssanimations class added by modernizr */
 .no-cssanimations .slider li {
 	opacity: 1;
+}
+
+.btn {
+  display: block;
+  width: 200px;
+  margin: 0 auto;
+  padding: 0px;
+
+  color: #fff;
+  font-size: 20px;
+  text-decoration: none;
+  text-align: center;
+  line-height: 50px;
+
+  border: #0366fc;
+
+  background-image: linear-gradient(to right, #0366fc 50%, transparent 50%);
+  background-position: 100% 0%;
+  background-size: 200% 100%;
+  transition: 0.5s;
+}
+
+.btn:hover {
+  color: #ffd;
+  background-position: 0% 0%;
+  box-shadow: 3px 3px 6px #0366fc;
+}
+
+
+@keyframes slideIn {
+  from { left: -100;}
+  to {left: 0%;}
 }
